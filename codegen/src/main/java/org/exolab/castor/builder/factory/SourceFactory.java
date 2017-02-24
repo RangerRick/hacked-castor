@@ -1141,10 +1141,7 @@ public final class SourceFactory extends BaseFactory {
 //                + "The following steps came from "
 //                + "<b>Effective Java Programming Language Guide</b> "
 //                + "by Joshua Bloch, Chapter 3");
-
-        if (getConfig().useJava50()) {
-            jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
-        }
+        jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
 
         // The hashCode method has no arguments
         jclass.addMethod(jMethod);

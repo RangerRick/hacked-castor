@@ -8,6 +8,7 @@ For a log of modifications made to the source tree see: https://github.com/j-whi
 ## Building
 
     mvn clean install
+    cd codegen && mvn clean install
 
 ## Using in OpenNMS
 

@@ -11,7 +11,7 @@ public class TestSourceGenerator extends TestCase {
         SourceGenerator generator = new SourceGenerator();
         String xmlSchema = getClass().getResource("test.xsd").toExternalForm();
         InputSource inputSource = new InputSource(xmlSchema);
-        generator.setDestDir("./codegen/src/test/java");
+        generator.setDestDir("/tmp");
         generator.setSuppressNonFatalWarnings(true);
         
         // uncomment the next line to set a binding file for source generation

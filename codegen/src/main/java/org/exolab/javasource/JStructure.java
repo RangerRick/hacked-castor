@@ -45,6 +45,7 @@ package org.exolab.javasource;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -477,15 +478,19 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     public final void print(final String destDir, final String lineSeparator) {
         //-- open output file
         String filename = getFilename(destDir);
+        
+        StringWriter sw = new StringWriter();
 
         File file = new File(filename);
-        JSourceWriter jsw = null;
+        FileWriter fw;
         try {
-            jsw = new JSourceWriter(new FileWriter(file));
-        } catch (IOException ioe) {
+            fw = new FileWriter(file);
+        } catch (IOException e) {
             System.out.println("unable to create class file: " + filename);
             return;
         }
+
+        JSourceWriter jsw = new JSourceWriter(sw);
         if (lineSeparator == null) {
             jsw.setLineSeparator(System.getProperty("line.separator"));
         } else {
@@ -493,6 +498,20 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         }
         print(jsw);
         jsw.close();
+        
+        // We've now written the class to the StringWriter
+        String clazz = sw.toString();
+        // Remove 'java.lang.' prefix
+        clazz = clazz.replaceAll("java\\.lang\\.", "");
+
+        // Write the modified class to the file
+        try {
+            fw.write(clazz);
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("unable to create class file: " + filename);
+            return;
+        }
     }
 
     /**
